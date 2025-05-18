@@ -1,4 +1,4 @@
-#  GymCustomerWebsite
+#  DCrossFitness
 
 "Website quản lý phòng gym được xây dựng bằng Flask, với hỗ trợ giao diện, thanh toán PayPal."
 
@@ -39,6 +39,7 @@ Cài đặt nhanh bằng pip:
 ```bash
 pip install Flask python-dotenv Flask-MySQLdb paypalrestsdk requests pyzbar Pillow Werkzeug
 
+```
 
 ## Thiết lập file `.env`
 
@@ -60,7 +61,7 @@ PAYPAL_CLIENT_SECRET=...
 ##  Cấu trúc dự án
 
 ```
-GymCustomerWebsite/
+DCrossFitness/
 │
 ├── static/
 │   ├── images/
