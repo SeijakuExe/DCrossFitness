@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Collection</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a class="return-box" href="back">
+                <div class="return-icon"><i class='bx bx-arrow-back'></i></div>
+                <div class="text">BACK</div>
+            </a>
+            <span class="brand-name">Workout Collection</span>
+        </div>
+    </nav>
+
+    <div class="scroll">
+        <div class="body-container main-container">
+            <div class="block block-1" id="main-content">
+                <h2>Select an area to view details</h2>
+            </div>
+            <div class="sub-container">
+                <div class="sub-block" id="exercises-content"></div>
+                <div class="sub-block" id="note-content"></div>
+            </div>
+        </div>
+
+        <div class="body-container">
+            <div class="block-container">
+                {% for area in areas %}
+                    <div class="block block-{{ loop.index }}" data-area-id="{{ area.id_area }}">
+                        <h3>{{ area.id_area }}.</h3>
+                        <h2 class="text">{{ area.name | upper }}</h2>
+                        <div class="text">{{ area.description | upper }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script type="text/javascript">
+        // Dữ liệu từ Flask
+        const areas = {{ areas_json | safe }};
+        const exercisesDict = {{ exercises_dict_json | safe }};
+
+        // Debug: Kiểm tra dữ liệu
+        console.log("Areas:", areas);
+        console.log("Exercises Dict:", exercisesDict);
+
+        // Function to update content dynamically and change block class
+        function loadAreaContent(areaId, blockIndex) {
+            const area = areas[areaId];
+            const exercises = exercisesDict[areaId] || [];
+
+            // Update main-content
+            const mainContent = document.getElementById('main-content');
+            const blockClassIndex = (blockIndex % 6) + 1;  // Change block class dynamically (1 to 6)
+            mainContent.className = `block block-${blockClassIndex}`; // Dynamic class change
+            mainContent.innerHTML = `
+                <h3 class="text"><br>${areaId}.</h3>
+                <h2 class="text">${area.name || 'Unknown Area'}</h2>
+                <p><strong>Description:</strong> ${area.description || 'No description available'}</p>
+            `;
+
+            // Update exercises-content
+            const exercisesContent = document.getElementById('exercises-content');
+            exercisesContent.innerHTML = `
+                <h3>Exercises:</h3>
+                ${exercises.length > 0 ?
+                    '<ul class="exercise-list">' +
+                    exercises.map(ex => `<li>${ex.name} - ${ex.repetition} reps</li>`).join('') +
+                    '</ul>' :
+                    '<p>No exercises available for this area.</p>'
+                }
+            `;
+
+            // Update note-content
+            const noteContent = document.getElementById('note-content');
+            noteContent.innerHTML = `
+                <h3>Note:</h3>
+                <p>${area.note || 'No note available'}</p>
+            `;
+        }
+
+        // When the page loads, load the area with id_area = 1 by default
+        document.addEventListener('DOMContentLoaded', function() {
+            const defaultAreaId = 1; // Default to id_area = 1
+            loadAreaContent(defaultAreaId, 0);  // Default to block-1 class
+
+            // Handle block clicks
+            const blocks = document.querySelectorAll('.block-container .block');
+            blocks.forEach((block, index) => {
+                block.addEventListener('click', function() {
+                    const areaId = this.getAttribute('data-area-id');
+                    loadAreaContent(areaId, index);  // Pass the block index for dynamic class change
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

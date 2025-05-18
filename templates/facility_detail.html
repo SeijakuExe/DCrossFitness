@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Collection</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a class="return-box" href="{{ url_for('facilities') }}">
+                <div class="return-icon"><i class='bx bx-arrow-back'></i></div>
+                <div class="text">BACK</div>
+            </a>
+            <span class="brand-name">Equipment Detail</span>
+        </div>
+    </nav>
+    <div class="scroll">
+        <div class="body-container detail-container">
+            <div class="upper">
+                <div class="img-box"><img src="{{ equipment.image }}" alt="{{ equipment.name }}"></div>
+                <div class="basic-info">
+                    <h3>{{ equipment.name }}</h3>
+                    <p><strong>Category:</strong> {{ equipment.category }}</p>
+                    <p><strong>Brand:</strong> {{ equipment.brand }}</p>
+                    <p><strong>Purchase Date:</strong> {{ equipment.purchase_date }}</p>
+                    <p><strong>Quantity:</strong> {{ equipment.quantity }}</p>
+                    <p><strong>In Use:</strong> {{ equipment.quantity_available }}</p>
+                </div>
+            </div>
+            <div class="lower">
+                <h3>Product Specifications:</h3>
+                <p><strong>Size:</strong> {{ equipment.size }}</p>
+                <p><strong>Net Weight:</strong> {{ equipment.weight }}</p>
+            </div>
+        </div>
+    </div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script>
+        function showPopup(message, type) {
+            alert(message);
+        }
+    </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Login</h2>
+        <form action="/login" method="post">
+            <div class="label">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="label">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <div class="btn-container">
+                <a href="/" class="btn btn-alter">Cancel </a>
+                <button type="submit" class="btn btn-submit">Login</button>
+            </div>
+            <div class="below-text">Don't have an account? <a href="register"> Sign up</a></div>
+            <div class="below-text"><a href="forget-password">Forget password?</a></div>
+        </form>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                {% for category, message in messages %}
+                    showPopup("{{ message }}", "{{ category }}");
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

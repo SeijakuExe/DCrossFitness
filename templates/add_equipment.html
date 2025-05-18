@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Equipment</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+
+    <form method="POST" action="{{ url_for('add_equipment') }}" class="equipment-form manage-form">
+
+        <div class="img-box">
+            <h3 style="margin-top: 10px; margin-left: 50px; margin-right: 50px; font-size: 36px;">Add New Equipment</h3>
+            <div class="equipment-button-layout">
+                <button type="submit" class="btn-wide btn-submit">Add</button>
+                <button type="reset" onclick="window.history.back()" class="btn-wide btn-alter">Cancel</button>
+            </div>
+        </div>
+
+        <div class="equipment-input">
+            <div class="basic-info">
+                <h3>Basic Information:</h3>
+                <p><strong>Name:</strong> <input class="form-control" type="text" name="Name" required></p>
+                <p><strong>Category:</strong> <input class="form-control" type="text" name="Category" required></p>
+                <p><strong>Brand:</strong> <input class="form-control" type="text" name="Brand" required></p>
+                <p><strong>Purchase Date:</strong> <input class="form-control" type="date" name="PurchaseDate" required></p>
+                <p><strong>Quantity:</strong> <input class="form-control" type="number" name="Quantity" required></p>
+                <p><strong>In Use:</strong> <input class="form-control" type="number" name="QuantityAvailable" required></p>
+                <p><strong>Image Url:</strong> <input class="form-control" type="text" name="ImageUrl" required></p>
+            </div>
+
+            <div class="dimensional-info">
+                <h3>Product Specifications:</h3>
+                <p><strong>Size:</strong> <input class="form-control" type="text" name="Size" required></p>
+                <p><strong>Net Weight:</strong> <input class="form-control" type="text" name="Weight" required></p>
+            </div>
+        </div>
+    </form>
+
+    <br>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

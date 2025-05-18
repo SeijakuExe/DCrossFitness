@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enroll in Class</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+    <div class="enroll-container">
+        <h2>Confirm Enrollment</h2>
+        <div id="classInfo">
+            <p>Loading class info...</p>
+        </div>
+        <form method="POST" class="btn-container-wide">
+            <input type="hidden" name="idClass" id="idClassInput">
+            <button type="submit" class="btn-wide btn-submit">Confirm Enroll</button>
+            <button type="reset" onclick="window.history.back()" class="btn-wide btn-alter">Back</button>
+        </form>
+    </div>
+
+    <script>
+        const classInfoDiv = document.getElementById('classInfo');
+        const urlParams = new URLSearchParams(window.location.search);
+        const idClass = urlParams.get('idClass');
+        document.getElementById('idClassInput').value = idClass;
+
+        fetch('/api/class-info')
+            .then(res => res.json())
+            .then(data => {
+                if (!data) {
+                    classInfoDiv.innerHTML = '<p>Unable to load class info.</p>';
+                    return;
+                }
+
+                // handle object or array response
+                let classEntry = null;
+                if (Array.isArray(data)) {
+                    classEntry = data.find(entry => entry.Class.idClass == idClass);
+                } else if (data.Class?.idClass == idClass) {
+                    classEntry = data;
+                }
+
+                if (!classEntry) {
+                    classInfoDiv.innerHTML = '<p>Class not found.</p>';
+                    return;
+                }
+
+                const { Class: classInfo, Trainer: trainer, Schedule: schedules } = classEntry;
+
+                const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                let html = `
+                    <strong>${classInfo.Name}</strong><br>
+                    Trainer: ${trainer.Name}<br>
+                    Phone: ${trainer.Phone}<br>
+                    <div class="schedule-container">
+                        <table class="membership-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                schedules.forEach(s => {
+                    html += `
+                        <tr>
+                            <td>${s.Day}</td>
+                            <td>${s.Start}</td>
+                            <td>${s.End}</td>
+                        </tr>
+                    `;
+                });
+
+                html += '</tbody></table></div>';
+                classInfoDiv.innerHTML = html;
+            })
+            .catch(err => {
+                console.error(err);
+                classInfoDiv.innerHTML = '<p>Error loading class info.</p>';
+            });
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

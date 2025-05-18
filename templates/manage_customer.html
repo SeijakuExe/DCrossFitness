@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Register</title>
+
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+
+</head>
+<body>
+    <div class="container-customer">
+        <div class="form-container">
+            <h2>Manage Customer</h2>
+            <form action="/update-customer/{{ customer.ID }}" method="post">
+                <div class="label">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ customer.Name }}" required>
+                </div>
+                <div class="label">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" value="{{ customer.Phone }}" required>
+                </div>
+                <div class="label">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-control" id="gender" name="gender" required>
+                        <option value="Male" {% if customer.Gender == 'Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if customer.Gender == 'Female' %}selected{% endif %}>Female</option>
+                    </select>
+                </div>
+                <div class="label">
+                    <label for="birth" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="birth" name="birth" value="{{ customer.Birth }}">
+                </div>
+
+                    <button type="submit" class="btn-wide btn-submit">Update</button>
+            </form>
+
+
+                <form action="/add-membership" method="post">
+                    <input type="hidden" name="id" value="{{ customer.ID }}">
+                    <button type="submit" class="btn-wide btn-submit">Add Membership</button>
+                </form>
+                <form action="/print-card/{{ customer.ID }}" method="post">
+                    <input type="hidden" name="id" value="{{ customer.ID }}">
+                    <button type="submit" class="btn-wide btn-submit">Print Membership Card</button>
+                </form>
+                <form action="/delete-customer/{{ customer.ID }}" method="post" onsubmit="return confirmDelete();">
+                    <input type="hidden" name="id" value="{{ customer.ID }}">
+                    <button type="submit" class="btn-wide btn-danger">Delete Customer</button>
+                </form>
+                <button onclick="window.location.href='/'" class="btn-wide btn-alter">Back</button>
+        </div>
+
+        {% set total_rows = 12   %}
+{% if memberships %}
+    <table class="membership-table-form">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in memberships %}
+            <tr>
+                <td>{{ m.id_membership }}</td>
+                <td>{{ m.membership_type }}</td>
+                <td>{{ m.start_date }}</td>
+                <td>{{ m.end_date }}</td>
+                <td>{{ m.status }}</td>
+            </tr>
+            {% endfor %}
+
+            {# Thêm dòng trống nếu chưa đủ 10 dòng #}
+            {% for _ in range(total_rows - memberships|length) %}
+            <tr>
+                <td colspan="5">&nbsp;</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="notfound-text">No membership records found.</p>
+{% endif %}
+
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                {% for category, message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
+        <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this customer?");
+        }
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

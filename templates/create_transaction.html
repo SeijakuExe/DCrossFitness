@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Transaction</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                {% for category, message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
+<nav class="navbar">
+  <div class="nav-left">
+    <a class="return-box" href="revenue">
+      <div class="return-icon"><i class='bx bx-arrow-back'></i></div>
+      <div class="text">BACK</div>
+    </a>
+    <span class="brand-name">Create Transaction</span>
+  </div>
+</nav>
+  <div class="scroll">
+        <div class="form-transaction-container">
+    <h3>Create New Transaction</h3>
+    <form method="POST">
+      <div class="form-group">
+        <label>Amount (VND)</label>
+        <input type="number" name="amount" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Payment Method</label>
+        <select name="method" class="form-control" required>
+          <option value="Cash">Cash</option>
+          <option value="Mobile Banking">Mobile Banking</option>
+          <option value="PayPal">PayPal</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" id="description" name="description" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Receiver ID (optional)</label>
+        <input type="number" id="idReceiver" name="receiver" class="form-control" placeholder="Leave empty for equipment purchase">
+      </div>
+
+      <button type="submit" class="btn btn-wide btn-submit">Create Transaction</button>
+    </form>
+
+    <hr>
+    <h3>Select Receiver</h3>
+    <input type="text" id="searchInput" class="form-control search-bar" placeholder="Search by name, phone, access...">
+
+    <table class="account-table" id="accountTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Access</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for acc in receivers %}
+        <tr data-id="{{ acc.id_accounts }}" data-name="{{ acc.name }}" data-access="{{ acc.access }}">
+          <td>{{ acc.id_accounts }}</td>
+          <td>{{ acc.name }}</td>
+          <td>{{ acc.phone }}</td>
+          <td>{{ acc.access }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  </div>
+
+
+  <script>
+  // Tìm kiếm live filter
+  document.getElementById('searchInput').addEventListener('keyup', function () {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll('#accountTable tbody tr');
+    rows.forEach(row => {
+      let text = row.textContent.toLowerCase();
+      row.style.display = text.includes(filter) ? '' : 'none';
+    });
+  });
+
+  // Tự động điền khi chọn
+  document.querySelectorAll('#accountTable tbody tr').forEach(row => {
+    row.addEventListener('click', function () {
+      let id = this.dataset.id;
+      let name = this.dataset.name;
+      let access = this.dataset.access;
+      let today = new Date();
+      let year = today.getFullYear();
+      let month = today.getMonth() + 1;
+
+      let description = "Facility Purchase";
+
+      if (access === 'Customer') {
+        description = `Refund for Customer: ${name}`;
+      } else if (access === 'Trainer' || access === 'Receptionist') {
+        description = `${year}/${month} Salary Payment for ${access}: ${name}`;
+      } else {
+        description = `Refund for ${access}: ${name}`;
+      }
+
+      document.getElementById('idReceiver').value = id;
+      document.getElementById('description').value = description;
+    });
+  });
+
+  // Mặc định mô tả nếu không có chọn ai cả
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('description').value = "Facility Purchase";
+  });
+</script>
+
+</body>
+</html>

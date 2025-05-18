@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Collection</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a class="return-box" href="back">
+                <div class="return-icon"><i class='bx bx-arrow-back'></i></div>
+                <div class="text">BACK</div>
+            </a>
+            <span class="brand-name">Facilities Archive</span>
+        </div>
+    </nav>
+
+
+    <div class="scroll">
+        <div class="intro-container body-container">
+                <h1>Welcome to <br>D-Cross Fitness</h1>
+                <p>Locally gym and calisthenic facilities service.</p>
+            </div>
+        <div class="body-container equipment-container">
+            {% for item in equipment %}
+            <a class="equipment-box" href="/facilities/{{ item.id_equipment }}">
+                <img src="{{ item.image }}" alt="{{ item.name }}" class="equipment-image">
+                <h3>{{ item.name }}</h3>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Plan</title>
+
+    <!-- Bootstrap CSS + JS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Boxicons + Custom CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div>
+        <h2>Add Membership</h2>
+        <form id="membershipForm" action="/confirm-plan" method="post">
+            <input type="hidden" name="idCustomer" value="{{ id }}">
+
+            <div class="label">
+                <label class="form-label" for="plan">Membership Type:</label>
+                <select class="form-select" name="plan" id="plan">
+                    <option value="Basic">Basic</option>
+                    <option value="Premium">Premium</option>
+                </select>
+            </div>
+
+            <div class="label">
+                <label class="form-label" for="duration">Select Duration (months):</label>
+                <select class="form-select" name="duration" id="duration">
+                    <option value="1">1 Month</option>
+                    <option value="3">3 Months</option>
+                    <option value="6">6 Months</option>
+                    <option value="12">12 Months</option>
+                </select>
+            </div>
+
+            <div class="label">
+                <label class="form-label" for="payment_method">Select payment method:</label>
+                <select class="form-select" name="payment_method" id="payment_method">
+                    <option value="Cash">Cash</option>
+                    <option value="Mobile Banking">Mobile Banking</option>
+                </select>
+            </div>
+
+            <div class="btn-container mt-3">
+                <a href="/manage-customer/{{ id }}" class="btn-wide btn-alter">Cancel</a>
+                <button type="button" class="btn-wide btn-submit" onclick="prepareModal()">Confirm</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal xác nhận -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalLabel">Waiting for payment...</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Plan: <strong id="modalPlan">-</strong></p>
+        <p>Duration: <strong id="modalDuration">-</strong> month</p>
+        <p>Total Price: <strong id="modalPrice">-</strong></p>
+          <p>Payment Method: <strong id="modalMethod">-</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-alter" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-submit" onclick="submitForm()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript xử lý -->
+<script>
+    function prepareModal() {
+    const plan = document.getElementById("plan").value;
+    const duration = parseInt(document.getElementById("duration").value);
+    const payment_method = document.getElementById("payment_method").value;
+
+    const priceMap = {
+        'Basic': 200000,
+        'Premium': 300000
+    };
+
+    const discountMap = {
+        3: 0.10,
+        6: 0.20,
+        12: 0.30
+    };
+
+    const unitPrice = priceMap[plan] || 0;
+    const discount = discountMap[duration] || 0;
+
+    const originalTotal = unitPrice * duration;
+    const discountedTotal = originalTotal * (1 - discount);
+
+    document.getElementById("modalPlan").textContent = plan;
+    document.getElementById("modalDuration").textContent = duration;
+    document.getElementById("modalPrice").textContent = discountedTotal.toLocaleString('vi-VN') + ' VND';
+    document.getElementById("modalMethod").textContent = payment_method;
+
+    const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+    modal.show();
+}
+    function submitForm() {
+        document.getElementById("membershipForm").submit();
+    }
+</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

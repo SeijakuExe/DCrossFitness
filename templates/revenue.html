@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Revenue</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                {% for category, message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
+<nav class="navbar">
+  <div class="nav-left">
+    <a class="return-box" href="back">
+      <div class="return-icon"><i class='bx bx-arrow-back'></i></div>
+      <div class="text">BACK</div>
+    </a>
+    <span class="brand-name">Revenue</span>
+  </div>
+</nav>
+
+<div class="scroll" style="margin-top: 125px;">
+  <div style="padding: 0px 20px;">
+    <a href="{{ url_for('export_revenue_csv') }}" class="btn btn-submit">Export CSV</a>
+    <a href="{{ url_for('create_transaction') }}" class="btn btn-submit">Create Transaction</a>
+  </div>
+
+  <div class="revenue-container">
+    <div class="revenue-table-container">
+      <h3>Monthly Revenue</h3>
+      <table class="revenue-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Income (VND)</th>
+            <th>Salary (VND)</th>
+            <th>Refund (VND)</th>
+            <th>Purchase (VND)</th>
+            <th>Total (VND)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in summary|reverse %}
+          <tr>
+            <td>{{ item.month }}</td>
+            <td>{{ "{:,.0f}".format(item.income) }}</td>
+            <td>{{ "{:,.0f}".format(item.salary) }}</td>
+            <td>{{ "{:,.0f}".format(item.refund) }}</td>
+            <td>{{ "{:,.0f}".format(item.purchase) }}</td>
+            <td><strong>{{ "{:,.0f}".format(item.total) }}</strong></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="revenue-chart-container">
+      <canvas id="revenuePieChart" width="400" height="400"></canvas>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+  const summaryData = {{ summary|tojson }};
+  const latest = summaryData[summaryData.length - 1];
+
+  const ctx = document.getElementById('revenuePieChart').getContext('2d');
+  const pieChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Income', 'Salary', 'Refund', 'Purchase'],
+      datasets: [{
+        label: 'Revenue Distribution',
+        data: [latest.income, latest.salary, latest.refund, latest.purchase],
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(153, 102, 255, 0.7)'
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(153, 102, 255, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: `Revenue Structure - {{ summary[-1].month }}`
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

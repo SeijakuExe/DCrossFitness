@@ -1,0 +1,33 @@
+
+
+{% block content %}
+<h2>Your Transactions</h2>
+
+{% if transactions %}
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Payment Method</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.id_transaction }}</td>
+            <td>{{ transaction.transaction_date }}</td>
+            <td>${{ transaction.amount }}</td>
+            <td>{{ transaction.payment_method }}</td>
+            <td>{{ transaction.description }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No transactions found.</p>
+{% endif %}
+
+{% endblock %}

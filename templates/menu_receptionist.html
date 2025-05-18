@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+
+    <title>Homepage</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                {% for category, message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
+    <nav class="navbar-menu">
+        <div class="nav-left"></div>
+        <div class="nav-right">
+            <span class="nav-user">
+                Welcome, <u>{{ account['Name'] }}</u>
+                <a href="#" data-content="User"><i class='bx bxs-user-circle icon'></i></a>
+
+                <div class="notification-wrapper">
+                    <a href="#" id="notificationToggle">
+                        <i class='bx bxs-bell icon'></i>
+                         {% if notification_count > 0 %}
+                        <span class="notification-badge"><strong>{{ notification_count }}</strong></span>
+                        {% endif %}
+                    </a>
+                    <div id="notificationDropdown" class="notification-dropdown">
+                        <p style="padding: 8px 12px; font-weight: bold;">Notifications</p>
+                        <ul id="notificationList"></ul>
+                    </div>
+                </div>
+
+            </span>
+        </div>
+    </nav>
+
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <i class='bx bx-dumbbell'></i>
+                </span>
+
+                <div class="text header-text">
+                    <span class="welcome-text">Menu </span>
+                    <span class="name">{{ account['Access'] }}</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-left toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link" data-content="Dashboard">
+                        <a href="#">
+                            <i class='bx bx-home-alt icon' ></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-link" data-content="ManageCustomer">
+                        <a href="#">
+                            <i class='bx bxs-user-detail icon'></i>
+                            <span class="text nav-text">Manage Customer</span>
+                        </a>
+                    </li>
+                    <li class="nav-link" data-content="MySchedule">
+                        <a href="#">
+                            <i class='bx bxs-calendar icon' ></i>
+                            <span class="text nav-text">Schedule</span>
+                        </a>
+                    </li>
+                    <li class="nav-link" data-content="ManageEquipment">
+                        <a href="#">
+                            <i class='bx bxs-archive icon' ></i>
+                            <span class="text nav-text">Manage Equipment</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/scan-barcode-image" target="_blank">
+                            <i class='bx bxs-door-open icon'></i>
+                            <span class="text nav-text">Entrance Control</span>
+                        </a>
+                    </li>
+                    <li class="nav-link " data-content="User">
+                        <a href="#">
+                            <i class='bx bxs-user-account icon' ></i>
+                            <span class="text nav-text">User</span>
+                        </a>
+                    </li>
+                    <li class="nav-link" data-content="Transactions">
+                        <a href="#">
+                            <i class='bx bx-bar-chart-alt-2 icon' ></i>
+                            <span class="text nav-text">Transactions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="bottom-content">
+                <li class="">
+                        <a href="{{ url_for('logout') }}">
+                            <i class='bx bx-exit bx-rotate-180 icon'></i>
+                            <span class="text nav-text">Exit</span>
+                        </a>
+                    </li>
+
+                <li class="mode">
+                        <div class="moon-sun">
+                            <i class='bx bx-moon icon moon'></i>
+                            <i class='bx bx-sun icon sun'></i>
+                            </div>
+                            <span class="mode-text text">Dark mode</span>
+
+                            <div class="toggle-switch">
+                                <span class="switch"></span>
+                        </div>
+                    </li>
+            </div>
+        </div>
+    </nav>
+    <section class="home">
+
+    </section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<!-- Sanitation Reminder Modal -->
+<div id="sanitationModal" class="modal" style="display:none; position:fixed; z-index:999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+  <div style="background:white; margin:15% auto; padding:20px; border-radius:10px; width:300px; text-align:center;">
+    <h3>Reminder</h3>
+    <p style="font-size: 24px;" id="sanitationMessage">Please sanitize equipment regularly!</p>
+    <button class="btn btn-submit" onclick="document.getElementById('sanitationModal').style.display='none'">OK</button>
+  </div>
+</div>
+
+<script>
+function shouldShowPopup(hour, minute) {
+    const now = new Date();
+    return now.getHours() === hour && now.getMinutes() === minute;
+}
+
+function hasShownToday(key) {
+    const lastShown = sessionStorage.getItem(key);
+    const today = new Date().toISOString().split('T')[0];
+    return lastShown === today;
+}
+
+function setShownToday(key) {
+    const today = new Date().toISOString().split('T')[0];
+    sessionStorage.setItem(key, today);
+}
+
+function checkSanitationReminder() {
+    const schedule = [
+        { hour: 9, minute: 0, key: 'sanitize_9am' },
+        { hour: 13, minute: 0, key: 'sanitize_1pm' },
+        { hour: 17, minute: 0, key: 'sanitize_5pm' }
+    ];
+
+    for (let entry of schedule) {
+        if (shouldShowPopup(entry.hour, entry.minute) && !hasShownToday(entry.key)) {
+            document.getElementById('sanitationModal').style.display = 'block';
+            setShownToday(entry.key);
+            break;
+        }
+    }
+}
+
+
+setInterval(checkSanitationReminder, 60000);
+</script>
+
+</body>
+</html>
+
+

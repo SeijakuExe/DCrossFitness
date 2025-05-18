@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Control</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+<div class="scan-container">
+    <h2>Certify Card</h2>
+
+
+    <form id="scanForm" action="/scan-barcode-image" method="post" enctype="multipart/form-data" class="scan-form">
+        <div id="uploadArea" class="upload-area">
+            <i class='bx bx-id-card'></i>
+            <p>Scan the barcode on your membership card</p>
+            <input id="barcodeInput" type="file" name="barcode_image" accept="image/*" required>
+        </div>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+          <li style="color: {% if category == 'error' %}red{% else %}green{% endif %}; list-style-type: none;">
+            {{ message }}
+          </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</div>
+
+
+<script>
+    const uploadArea = document.getElementById("uploadArea");
+    const barcodeInput = document.getElementById("barcodeInput");
+    const scanForm = document.getElementById("scanForm");
+
+    // Click to open file dialog
+    uploadArea.addEventListener("click", () => {
+        barcodeInput.click();
+    });
+
+    // Auto-submit when file selected
+    barcodeInput.addEventListener("change", function () {
+        if (this.files.length > 0) {
+            scanForm.submit();
+        }
+    });
+
+    // Drag and drop
+    uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.classList.add("dragover");
+    });
+
+    uploadArea.addEventListener("dragleave", () => {
+        uploadArea.classList.remove("dragover");
+    });
+
+    uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            barcodeInput.files = files;
+            scanForm.submit();
+        }
+    });
+</script>
+</body>
+</html>

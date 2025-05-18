@@ -1,0 +1,33 @@
+
+
+{% block content %}
+<h2>Your Memberships</h2>
+
+{% if memberships %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Membership Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for membership in memberships %}
+            <tr>
+                <td>{{ membership.id_membership }}</td>
+                <td>{{ membership.membership_type }}</td>
+                <td>{{ membership.start_date }}</td>
+                <td>{{ membership.end_date if membership.end_date else "N/A" }}</td>
+                <td>{{ membership.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No memberships found.</p>
+{% endif %}
+
+{% endblock %}

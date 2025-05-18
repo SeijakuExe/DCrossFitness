@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+<script>localStorage.removeItem("theme")</script>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo-box">
+                <div class="logo"><i class='bx bx-dumbbell'></i></div>
+            </div>
+            <span class="brand-name">D-Cross Fitness</span>
+        </div>
+
+        <div class="nav-right">
+            <span>Join now by <a href="register"> Signing up </a></span>
+        </div>
+    </nav>
+    <div class="scroll">
+        <div class="intro-container body-container">
+            <h1>Welcome to <br>D-Cross Fitness</h1>
+            <p>Locally gym and calisthenic facilities service.</p>
+        </div>
+        <div class="body-container in-dashboard">
+            <div class="block-container">
+
+                <a href="https://maps.app.goo.gl/yBvj3MjzqGiNefHs7" target="_blank">
+                    <div class="block block-1">
+                        <img src="{{ url_for('static', filename='images/map-pattern.png') }}" class="pattern-overlay" alt="Pattern overlay">
+                        <h2 class="text"><i class='bx bxs-map'></i> ADDRESS:</h2>
+                        <div class="text"><br>P. Hoa Ma, Ngo Thi Nham,<br> Hai Ba Trung, Ha Noi, Vietnam.</div>
+                    </div>
+                </a>
+
+                <a href="https://www.timeanddate.com/worldclock/vietnam/hanoi" target="_blank">
+                    <div class="block block-2">
+                        <img src="{{ url_for('static', filename='images/clock-pattern.png') }}" class="pattern-overlay" alt="Pattern overlay">
+                        <h2 class="text"><i class='bx bx-time'></i> OPENING HOURS:</h2>
+                        <div class="text">MON - FRI: &nbsp;&nbsp;9 AM - 6 PM</div>
+                        <div class="text">SATURDAY: &nbsp;&nbsp;8 AM - 8 PM</div>
+                        <div class="text">SUNDAY: &nbsp;&nbsp;1 PM - 8 PM</div>
+                    </div>
+                </a>
+
+                <a href="login">
+                    <div class="block block-3">
+                        <img src="{{ url_for('static', filename='images/purchase-pattern.png') }}" class="pattern-overlay" alt="Pattern overlay">
+                        <h2 class="text"><i class='bx bxs-credit-card' ></i> PURCHASE PLANS:</h2>
+                        <div class="text">Outstanding services access <br>from less than 10$/month.</div>
+                        <div class="text">Advance course with personal trainers.</div>
+                        <div class="text">Online payment available.</div>
+                    </div>
+                </a>
+
+                <a href="facilities">
+                    <div class="block block-4">
+                        <img src="{{ url_for('static', filename='images/equipment-pattern.png') }}" class="pattern-overlay" alt="Pattern overlay">
+                        <h2 class="text"><i class='bx bx-archive'></i> FACILITIES:</h2>
+                        <div class="text"><br>General standard and <br>universal choice.</div>
+                        <div class="text">Accessible archive</div>
+                    </div>
+                </a>
+
+                <a href="collection">
+                    <div class="block block-5">
+                        <img src="{{ url_for('static', filename='images/exercise-pattern.png') }}" class="pattern-overlay" alt="Pattern overlay">
+                        <h2 class="text"><i class='bx bxs-hot' ></i></i> WORKOUT COLLECTION:</h2>
+                        <div class="text">Study some workouts by yourself!</div>
+                    </div>
+                </a>
+
+                <a href="contact-info">
+                    <div class="block block-6">
+                        <img src="{{ url_for('static', filename='images/contact-pattern.png') }}" class="pattern-overlay" alt="Pattern overlay">
+                        <h2 class="text"><i class='bx bxs-contact'></i> CONTACT US:</h2>
+                        <div class="text"><br>Via phone, email, etc.</div>
+                    </div>
+                </a>
+
+
+            </div>
+        </div>
+        <div class="intro-container body-container">
+            <h2>Transform Your Fitness Today</h2>
+            <p><br>Unleash your potential with our unique gym and calisthenics fusion. Build strength, boost endurance, and master flexibility. Our expert trainers and top-notch facilities guarantee results. <br><br>Join now and get a free professional training session—limited spots available! Don’t miss out.</p>
+        </div>
+        <div class="body-container">
+            <div class="block block-bottom">
+                <i class='bx bxs-to-top'></i>
+                <div><br>BACK TO TOP</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector(".block-bottom").addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <script>
+                    {% for category, message in messages %}
+                        alert("{{ message }}");  // Hiển thị thông báo dưới dạng popup
+                    {% endfor %}
+                </script>
+            {% endif %}
+        {% endwith %}
+
+</body>
+</html>

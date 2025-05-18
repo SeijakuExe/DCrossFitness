@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <title>Đăng ký Membership</title>
+</head>
+<body>
+    <h2>Chọn gói membership</h2>
+    <form action="/pay" method="post">
+        <label for="duration">Chọn thời gian:</label>
+        <select name="duration">
+            {% for key, plan in plans.items() %}
+            <option value="{{ key }}">{{ plan.name }} - ${{ plan.price }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Thanh toán qua PayPal</button>
+    </form>
+</body>
+</html>

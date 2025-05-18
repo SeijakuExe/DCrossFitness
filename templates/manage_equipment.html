@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Equipment</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                {% for category, message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
+
+            <form method="POST" action="{{ url_for('manage_equipment', id=equipment.id_equipment) }}" class="equipment-form manage-form">
+
+                    <div class="img-box">
+                        <h3 style="margin-top: 10px; margin-left: 50px; margin-right: 50px; font-size: 36px;">Manage Equipment</h3>
+                        <img src="{{ equipment.image }}" alt="{{ equipment.name }}">
+                        <div class="equipment-button-layout">
+                            <button type="submit" class="btn-wide btn-submit">Update</button>
+                            <button type="button" class="btn-wide btn-danger" onclick="deleteEquipment({{ equipment.id_equipment }})">Delete</button>
+                            <button type="reset" onclick="window.location.href='/'" class="btn-wide btn-alter">Cancel</button>
+                        </div>
+                    </div>
+                <div class="equipment-input">
+                    <div class="basic-info">
+                        <h3>Basic Information:</h3>
+                        <p><strong>Name:</strong> <input class="form-control" type="text" name="Name" value="{{ equipment.name }}"></p>
+                        <p><strong>Category:</strong> <input class="form-control" type="text" name="Category" value="{{ equipment.category }}"></p>
+                        <p><strong>Brand:</strong> <input class="form-control" type="text" name="Brand" value="{{ equipment.brand }}"></p>
+                        <p><strong>Purchase Date:</strong> <input class="form-control" type="date" name="PurchaseDate" value="{{ equipment.purchase_date }}"></p>
+                        <p><strong>Quantity:</strong> <input class="form-control" type="number" name="Quantity" value="{{ equipment.quantity }}"></p>
+                        <p><strong>In Use:</strong> <input class="form-control" type="number" name="QuantityAvailable" value="{{ equipment.quantity_available }}"></p>
+                        <p><strong>Image Url:</strong> <input class="form-control" type="text" name="ImageUrl" value="{{ equipment.image }}"></p>
+                    </div>
+
+                    <div class="dimensional-info">
+                        <h3>Product Specifications:</h3>
+                        <p><strong>Size:</strong> <input class="form-control" type="text" name="Size" value="{{ equipment.size }}"></p>
+                        <p><strong>Net Weight:</strong> <input class="form-control" type="text" name="Weight" value="{{ equipment.weight }}"></p>
+                    </div>
+                </div>
+            </form>
+            <br>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+    function deleteEquipment(id) {
+        if (confirm("Are you sure you want to delete this equipment?")) {
+            window.location.href = `/delete-equipment/${id}`;
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script>
+        function showPopup(message, type) {
+            alert(message);
+        }
+    </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Edit profile</h2>
+    <form action="/edit-profile" method="post">
+        <div class="label">
+        <label>Name:</label>
+        <input class="form-control" type="text" name="name" value="{{ account.Name }}" required>
+        </div>
+
+        <div class="label">
+            <label>Phone:</label>
+        <input class="form-control" type="text" name="phone" value="{{ account.Phone }}" required>
+        </div>
+
+        <div class="label">
+            <label>Gender:</label>
+        <select class="form-control" name="gender" required>
+            <option value="Male" {% if account.Gender == "Male" %}selected{% endif %}>Male</option>
+            <option value="Female" {% if account.Gender == "Female" %}selected{% endif %}>Female</option>
+        </select>
+        </div>
+
+        <div class="label">
+            <label>Date of Birth:</label>
+            <input class="form-control" type="date" name="birth" value="{{ account.Birth }}">
+        </div>
+
+        <button type="submit" class="btn-wide btn-submit">Save Changes</button>
+
+    </form>
+            <button onclick="window.history.back()" class="btn-wide btn-alter">Cancel</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>

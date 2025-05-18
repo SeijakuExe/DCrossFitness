@@ -1,0 +1,1334 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+*{
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --overlay-color: rgba(255, 255, 255, 0.85);
+    --body-color: #ffffff;
+    --sidebar-color: #e4e8f0;
+    --primary-color: #577294;
+    --primary-color-light: #e1e4e6;
+    --toggle-color-dark: #474747;
+    --text-color: #707070;
+    --text-color-highlight: white;
+    --border-color: black;
+    --block-color-1: #4a919e;
+    --block-color-2: #ce6a6b;
+    --block-color-3: #d99562;
+    --block-color-4: #212e53;
+    --block-color-5: #ebaca2;
+    --block-color-6: #bed3c3;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+
+
+    --trans-02: all 0.2s ease;
+    --trans-03: all 0.3s ease;
+    --trans-04: all 0.4s ease;
+    --trans-05: all 0.5s ease;
+}
+
+body{
+    transition: var(--trans-02);
+}
+
+body.dark{
+    --overlay-color: rgba(0, 0, 0, 0.9);
+    --body-color: #18191A;
+    --sidebar-color: #242526;
+    --primary-color: #3A3B3C;
+    --primary-color-light: #3A3B3C;
+    --toggle-color-dark: #FFF;
+    --text-color: #bdbdbd;
+    --border-color: white;
+    --block-color-1: #404040;
+    --block-color-2: #2b2b2b;
+    --block-color-3: #404040;
+    --block-color-4: #2b2b2b;
+    --block-color-5: #404040;
+    --block-color-6: #2b2b2b;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* Sidebar */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background: var(--sidebar-color);
+    padding: 10px 14px;
+    transition: var(--trans-04);
+    white-space: nowrap;
+    opacity: 1;
+    z-index: 100;
+    box-shadow: 2px 4px 10px var(--shadow-color);
+}
+
+.sidebar.close{
+    width: 90px;
+}
+
+.sidebar.close .text{
+    opacity: 0%;
+}
+
+.sidebar li {
+    height: 50px;
+    margin-top: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Reusable */
+.sidebar .text {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-color);
+    transition: var(--trans-04);
+}
+
+.sidebar .image {
+    min-width: 40px;
+    min-height: 40px;
+    margin: 10px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    background: var(--primary-color);
+    border-radius: 6%;
+    color: var(--text-color-highlight);
+    font-size: 24px;
+}
+
+.sidebar .menu{
+    margin-top: 27px;
+}
+
+.sidebar li .icon {
+    font-size: 20px;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar li .icon,
+.sidebar li .text {
+    color: var(--text-color);
+}
+
+.sidebar li a {
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    transition: var(--trans-04)
+}
+
+.sidebar li a:hover {
+    background: var(--primary-color);
+}
+
+.sidebar li a:hover .icon,
+.sidebar li a:hover .text {
+    color: var(--sidebar-color);
+    transition: var(--trans-02);
+}
+
+body.dark .sidebar li a:hover .icon,
+body.dark .sidebar li a:hover .text {
+    color: var(--text-color);
+    transition: var(--trans-02);
+}
+
+
+body.dark .sidebar header .toggle{
+    color: var(--text-color);
+}
+
+.sidebar.close header .toggle{
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.sidebar .image-text img {
+    width: 40px;
+    border-radius: 6px;
+}
+
+
+.sidebar header {
+    position: relative;
+}
+
+.sidebar header .image-text {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar header .header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar header .welcome-text {
+    margin-top: 0px;
+}
+
+.sidebar header .toggle {
+    position: absolute;
+    top: 50%;
+    right: -25px;
+    transform: translateY(-50%);
+    width: 27px;
+    height: 27px;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--sidebar-color);
+    font-size: 25px;
+    border: 3px solid var(--sidebar-color);
+}
+
+.sidebar .menu-bar{
+    height: calc(100% - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu-bar .mode{
+    background: var(--sidebar-color);
+    position: relative;
+    border-radius: 6px;
+}
+
+.menu-bar .mode .moon-sun{
+    height: 50px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.menu-bar .mode i{
+    position: absolute;
+}
+
+.menu-bar .mode i.sun{
+    opacity: 0;
+}
+
+.menu-bar .mode .toggle-switch{
+    height: 100%;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    color: var(--primary-color-light);
+}
+
+.toggle-switch .switch{
+    position: relative;
+    height: 22px;
+    width: 48px;
+    background: var(--toggle-color-dark);
+    border-radius: 25px;
+}
+
+.switch::before{
+    height: 17px;
+    width: 17px;
+    position: absolute;
+    content: '';
+    background: var(--sidebar-color);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    top: 50%;
+    left: 4px;
+    transition: var(--trans-03);
+}
+
+body.dark .switch::before{
+    left: 27px;
+}
+
+.home{
+    position: relative;
+    height: 100vh;
+    left: 250px;
+    width: calc(100% - 250px);
+    transition: var(--trans-04);
+}
+
+.sidebar.close ~ .home{
+    left: 90px;
+    width: calc(100% - 90px);
+}
+
+.home .title{
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--text-color);
+    padding: 12px 32px;
+}
+
+
+
+
+
+.membership-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    gap: 100px;
+}
+
+.membership-box {
+    position: relative;
+    width: 60%;
+    max-width: 300px;
+    height: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    background: var(--body-color);
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    transition: var(--trans-04);
+}
+
+
+.membership-box h2 {
+    margin: 12px;
+}
+
+.membership-box button {
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    bottom: 36px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    background: var(--primary-color);
+    color: var(--text-color-highlight);
+    border-radius: 5px;
+    transition: var(--trans-05);
+}
+
+.membership-box button:hover {
+    background: var(--primary-color-light);
+    color: var(--text-color);
+}
+
+
+
+
+.benefits-list {
+    text-align: left;
+    margin: 10px 0;
+    padding-left: 30px;
+
+    padding-top: 20px;
+}
+
+.benefits-list li {
+    margin-bottom: 8px;
+    font-size: 16px;
+    position: relative;
+}
+
+
+
+
+
+.user-info {
+    background: var(--body-color);
+    padding: 30px 50px;
+    width: 60%;
+    margin: 50px 150px;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    position: relative;
+}
+
+.user-info p {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+
+.navbar {
+    position: fixed;
+    z-index: 100;
+    top:0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    padding: 10px 20px;
+    padding-left: 0px;
+    color: var(--text-color);
+    border-bottom: var(--border-color) 2px solid;
+    height: 105px;
+    overflow: hidden;
+}
+.navbar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/static/images/nav-bg.jpg');
+    background-size: fit;
+    background-position: center;
+    z-index: -2;
+}
+
+.navbar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-color);
+    z-index: -1;
+}
+
+.navbar-menu {
+    position: fixed;
+    z-index: 100;
+    top:0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary-color);
+    padding: 10px 20px;
+    padding-left: 0px;
+    color: var(--text-color);
+    height: 80px;
+    box-shadow: 2px 4px 10px var(--shadow-color);
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+
+.brand-name {
+    height: 103px;
+    font-size: 40px;
+    font-weight: 600;
+    padding: 25px;
+    border-left: var(--border-color) 2px solid;
+}
+
+.nav-right {
+    display: flex;
+    padding-right: 24px;
+}
+
+.navbar-menu .nav-right .nav-user {
+    color: var(--text-color-highlight);
+    text-align: center;
+    font-weight: 300;
+    font-size: 22px;
+}
+
+.navbar-menu i {
+    font-size: 40px;
+    color: var(--text-color-highlight);
+    padding-left: 20px;
+}
+
+.logo {
+    margin-top: 10px;
+    margin-left: 40px;
+    padding-left: 30px;
+    color: var(--text-color-highlight);
+    font-weight: 800;
+    font-size: 72px;
+}
+
+.logo-box {
+    height: 103px;
+    width: 180px;
+    background: var(--primary-color);
+
+}
+
+.nav-right a {
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--primary-color);
+}
+
+.nav-right span {
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+
+.intro-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--text-color);
+    padding: 60px;
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.intro-container h1 {
+    font-weight: 800;
+    font-size: 72px;
+}
+
+.scroll {
+    margin-left: 180px;
+}
+
+.body-container {
+    border-bottom: var(--border-color) 2px solid;
+}
+.scroll .body-container {
+    border-left: var(--border-color) 2px solid;
+}
+
+
+.block-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    height: 720px;
+    width: 1080px;
+    margin: 0;
+    border-right: var(--border-color) 2px solid;
+}
+
+.block {
+    transition: var(--trans-02);
+    color: var(--text-color-highlight);
+    justify-content: center;
+    padding: 60px 30px;
+    height: 360px;
+    position: relative;
+    overflow: hidden;
+}
+
+.pattern-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    margin: 10%;
+    width: 80%; height: 80%;
+    object-fit: cover;
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 1;
+}
+
+
+
+.block a {
+    color: var(--text-color-highlight);
+}
+
+
+.block-1 {
+    background: var(--block-color-1);
+}
+
+.block-2 {
+    background: var(--block-color-2);
+}
+
+.block-3 {
+    background: var(--block-color-3);
+}
+
+.block-4 {
+    background: var(--block-color-4);
+}
+
+.block-5 {
+    background: var(--block-color-5);
+}
+
+.block-6 {
+    background: var(--block-color-6);
+}
+
+
+.block-container .block:hover {
+    transform: scale(0.9);
+}
+
+.block .text {
+    position: relative;
+    padding: 5px 0px;
+    z-index: 3;
+}
+
+.block-bottom {
+    width: 360px;
+    background: var(--primary-color);
+    text-align: center;
+    font-weight: 400;
+    font-size: 24px;
+    position: relative;
+    padding-top: 90px;
+    transition: var(--trans-02);
+    border-right: var(--border-color) 2px solid;
+}
+
+.block-bottom:hover {
+    background: var(--block-color-3);
+    padding-top: 60px;
+}
+
+.block-bottom div {
+    position: absolute;
+    bottom: 30%;
+    left: 25%;
+    right: 25%;
+}
+
+.block-bottom i {
+    font-size: 120px;
+    font-weight: 600;
+}
+
+.main-container {
+    margin-top: 105px;
+    height: 590px;
+}
+
+.return-icon {
+    margin: 15px 0px;
+    font-weight: 800;
+    font-size: 72px;
+}
+
+.return-box {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-color-highlight);
+    height: 103px;
+    width: 180px;
+    background: var(--primary-color);
+    padding-left: 60px;
+    position: relative;
+    transition: var(--trans-04);
+}
+
+.return-icon i {
+    background: var(--primary-color);
+    z-index: 100;
+    position: absolute;
+    border-left: 15px solid var(--primary-color);
+}
+
+.return-box:hover {
+    padding-left: 0px;
+}
+
+.return-box .text {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+
+
+
+
+
+
+
+.sub-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+    height: 100%;
+}
+
+.sub-block {
+    flex: 1;
+    padding: 24px;
+    border-right: 2px solid var(--border-color);
+    height: 230px;
+}
+
+.exercise-list {
+    list-style: none;
+    padding: 0;
+}
+
+.exercise-list li {
+    margin: 5px 0;
+}
+
+#main-content {
+    padding: 20px;
+}
+
+.block p{
+    font-size: 24px;
+}
+
+
+
+
+
+
+.membership-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.membership-table th, .membership-table td {
+    padding: 5px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+.membership-table th {
+    background: var(--primary-color);
+    font-weight: 500;
+    color: var(--text-color-highlight);
+}
+
+.membership-table td {
+    font-size: 18px;
+}
+
+
+.membership-table tr:hover {
+    background: var(--primary-color-light);
+}
+
+.membership-status {
+    display: flex;
+    margin: 20px;
+    padding-top: 20px;
+}
+
+.days-left {
+    border: 15px solid var(--block-color-6);
+    border-radius: 100%;
+    height: 200px;
+    width: 200px;
+    position: relative;
+
+    margin-left: auto;
+}
+
+.days-left div {
+    position: absolute;
+    top: 34%;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    justify-content: center;
+    left: 20%;
+    right: 20%;
+}
+
+
+
+.transaction-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 20px;
+    margin-top: 40px;
+    margin-left: 50px;
+    width: 60%;
+    font-size: 18px;
+}
+
+.transaction-block {
+    border: 1px solid var(--border-color);
+    padding: 5px;
+    background-color: var(--body-color);
+    transition: var(--trans-03);
+    height: 160px;
+}
+.transaction-block h3 {
+    margin-bottom: 10px;
+}
+.transaction-block p {
+    margin: 5px 0;
+}
+
+.transaction-block:hover {
+    background: var(--primary-color-light);
+}
+
+.equipment-image {
+    height: 200px;
+    width: 200px;
+    margin: 5px;
+}
+
+.equipment-container {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    width: 1080px;
+    border-right: var(--border-color) 2px solid;
+}
+
+.equipment-box {
+    background: var(--body-color);
+    transition: var(--trans-02);
+    color: var(--text-color);
+    justify-content: center;
+    padding: 60px 30px;
+    height: 360px;
+    text-align: center;
+    border: 1px solid var(--primary-color-light);
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.detail-container {
+    margin-top: 105px;
+    height: 85vh;
+}
+
+.detail-container .img-box {
+    width: 800px;
+    overflow: hidden;
+    background: var(--body-color);
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.detail-container .upper {
+    display: flex;
+    height: 60%;
+}
+
+.basic-info {
+    padding: 20px;
+    background: var(--primary-color);
+    color: var(--text-color-highlight);
+    width: 100%;
+}
+.detail-container h3 {
+    margin-bottom: 5px;
+}
+
+.detail-container .lower {
+    background: var(--block-color-6);
+    color: var(--text-color-highlight);
+    padding: 20px;
+    height: 40%;
+}
+
+.account-table {
+    min-width: 800px;
+    width: 800px;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: var(--body-color);
+}
+
+.account-table th, .account-table td {
+    padding: 5px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+.account-table th {
+    background: var(--primary-color);
+    font-weight: 500;
+    color: var(--text-color-highlight);
+    height: 40px;
+}
+
+.account-table td {
+    font-size: 18px;
+}
+
+
+.account-table tr:hover {
+    background: var(--primary-color-light);
+}
+
+.account-table a {
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--text-color-highlight);
+}
+.account-table .edit-box {
+    background: var(--primary-color);
+    text-align: center;
+    transition: var(--trans-02);
+}
+
+.account-table .edit-box:hover {
+    background: var(--block-color-4);
+}
+
+.features-container {
+    margin: 40px 80px;
+}
+
+.account-container {
+    display: flex;
+
+}
+
+.add {
+    font-weight: 400;
+    font-size: 18px;
+    margin: 20px 20px;
+    height: 40px;
+    width: 40px;
+    max-width: 200px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+    transition: var(--trans-03);
+    cursor: pointer;
+}
+
+.add i {
+    color: var(--text-color-highlight);
+    font-size: 38px;
+    transition: var(--trans-05);
+}
+
+.add-text {
+    color: var(--text-color-highlight);
+    white-space: nowrap;
+    opacity: 0;
+    transition: var(--trans-05);
+}
+
+.add:hover {
+    width: 175px;
+}
+
+.add:hover .add-text {
+    opacity: 1;
+}
+
+.membership-card {
+    background-image: url("/static/images/card-bg.png");
+    background-size: cover;
+    background-position: center;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    position: relative;
+    min-height: 270px;
+    min-width: 480px;
+    width: 480px;
+}
+
+.membership-card .card-head {
+    color: white;
+    padding: 0px 20px;
+    font-weight: 500;
+}
+
+.membership-card .card-body {
+    margin-top: 20px;
+    display: flex;
+}
+
+.membership-card .picture-icon {
+    border: 1px solid black;
+    height: 120px;
+    width: 90px;
+    background: #bababa;
+    margin-right: 30px;
+    margin-left: 30px;
+    margin-top: 15px;
+}
+
+.membership-card .picture-icon i {
+    color: white;
+    font-size: 60px;
+    margin: 15px;
+}
+
+.home {
+    margin-top: 80px;
+}
+
+.search-box {
+    width: 800px;
+    height: 36px;
+    padding: 5px;
+    background: var(--primary-color-light);
+    margin: 10px 0px;
+}
+
+
+.notification-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+
+.notification-dropdown {
+    color: var(--text-color);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background-color: var(--body-color);
+    position: absolute;
+    right: 0;
+    top: 57px;
+    min-width: 360px;
+    border-radius: 4px;
+    box-shadow: 0 8px 8px var(--shadow-color);
+    z-index: 1000;
+}
+
+.notification-dropdown.show {
+    max-height: 500px;
+}
+
+.notification-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-item {
+    padding: 8px 12px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-color);
+    text-align: left;
+}
+
+
+.notification-item.unread .notification-desc {
+    font-weight: bold;
+}
+
+
+.notification-empty {
+    padding: 8px 12px;
+    color: var(--text-color);
+    font-style: italic;
+    text-align: center;
+}
+
+.notification-time {
+    font-size: 0.85em;
+}
+.notification-item:not(.unread) {
+    background-color: var(--primary-color-light);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    font-size: 16px !important;
+    padding: 2px 6px;
+    line-height: 1;
+}
+.notification-badge strong {
+    color: var(--text-color-highlight);
+}
+
+
+.schedule-table {
+    width: 1120px;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+.schedule-table th, .schedule-table td {
+    border: 2px solid var(--toggle-color-dark);
+    padding: 12px;
+    text-align: center;
+    width: 14%;
+    word-wrap: break-word;
+}
+
+.schedule-table thead {
+    background-color: var(--primary-color);
+    color: var(--text-color-highlight);
+    font-weight: 600;
+}
+
+
+
+
+.schedule-table th, .schedule-table td {
+    vertical-align: top;
+}
+
+
+.schedule-table .has-schedule {
+    background-color: var(--sidebar-color);
+
+}
+
+
+.schedule-table td {
+    background-color: var(--body-color);
+    height: 100px;
+    font-size: 19px;
+
+}
+
+.schedule-table td.has-schedule, td.class-info {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.schedule-table td.class-info {
+    background-color: var(--sidebar-color);
+}
+
+.schedule-container {
+    margin: 30px;
+}
+
+
+.btn-enroll {
+    margin-top: 8px;
+    padding-bottom: 3px;
+    padding-top: 5px;
+    background: var(--primary-color);
+    border-radius: 4px;
+    height: 32px;
+    width: 100%;
+    color: var(--text-color-highlight);
+    font-weight: 400;
+    text-align: center;
+    transition: var(--trans-03);
+}
+
+.btn-enroll:hover {
+    background: var(--block-color-4);
+}
+
+.enroll-container {
+    background: var(--body-color);
+    padding: 30px 50px;
+    width: 50%;
+    min-width: 600px;
+    margin: 100px auto;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    border-radius: 10px;
+}
+
+.print-layout {
+    background: var(--body-color);
+    padding: 30px 50px;
+    width: 700px;
+    min-width: 700px;
+    margin: 100px auto;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    border-radius: 10px;
+}
+
+.print-layout .membership-card p {
+    margin: 10px 0px;
+    font-size: 20px;
+}
+
+.print-layout .title {
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.print-layout .print-form {
+    display: flex;
+}
+
+.print-layout .button-layout {
+    padding-left: 30px;
+}
+
+.check-cell {
+    width: 36px;
+    text-align: center !important;
+    padding-top: 10px !important;
+}
+
+.equipment-form {
+    display: flex;
+    margin: 40px auto;
+    border: 2px solid var(--border-color);
+    width: 1000px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--body-color);
+}
+
+.equipment-input {
+    width: 100%;
+}
+
+.dimensional-info {
+    padding: 20px;
+    color: var(--text-color-highlight);
+    width: 100%;
+    background: var(--primary-color);
+}
+
+.equipment-button-layout {
+    height:100%;
+    padding: 30px;
+    align-items: center;
+
+}
+
+.equipment-form .img-box{
+    max-width: 600px;
+    min-width: 440px;
+    max-height: 400px;
+}
+.equipment-form img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.transaction-two-columns {
+    display: flex;
+    gap: 30px;
+    padding: 20px 30px;
+    flex-wrap: wrap;
+    font-size: 18px;
+    width: 1000px;
+    margin: 10px auto;
+    border: 1px solid var(--toggle-color-dark);
+    background: var(--sidebar-color);
+}
+
+.transaction-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.transaction-two-columns h3 {
+    margin-bottom: 20px;
+}
+
+.revenue-container {
+    display: flex;
+    padding: 20px;
+    gap: 40px;
+    margin: 10px 0px;
+}
+
+.revenue-table-container{
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 3px 3px 5px 3px var(--shadow-color);
+    background: var(--body-color);
+}
+
+.revenue-chart-container{
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 3px 3px 5px 3px var(--shadow-color);
+    max-height: 440px;
+    max-width: 440px;
+    background: var(--body-color);
+}
+
+.revenue-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    white-space: nowrap;
+}
+
+.revenue-table th, .revenue-table td {
+    padding: 5px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+.revenue-table th {
+    background: var(--primary-color);
+    font-weight: 500;
+    color: var(--text-color-highlight);
+    font-size: 18px;
+}
+
+.revenue-table td {
+    font-size: 18px;
+}
+
+
+.revenue-table tr:hover {
+    background: var(--primary-color-light);
+}
+
+.form-transaction-container {
+    width: 80%;
+    padding-top: 150px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 30px;
+    border: 2px solid var(--toggle-color-dark);
+    background: var(--body-color);
+}
+
+.form-transaction-container h3 {
+    margin: 10px 0px;
+    font-size: 30px;
+}
+
+.form-transaction-container div {
+    margin: 10px 0px;
+}
+.form-transaction-container table {
+    width: 100%;
+    min-width: 0px;
+}
+

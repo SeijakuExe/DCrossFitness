@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Manage Staff</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+<div class="container-customer">
+    <div class="form-container">
+        <h2>Manage Staff</h2>
+        <form action="/manage-staff/{{ staff.ID }}" method="post">
+            <div style="display: flex;">
+                <div class="staff-info-container">
+                    <!-- Thông tin cá nhân -->
+                    <div class="label">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ staff.Name }}" required>
+                    </div>
+                    <div class="label">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ staff.Phone }}" required>
+                    </div>
+                    <div class="label">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="Male" {% if staff.Gender == 'Male' %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if staff.Gender == 'Female' %}selected{% endif %}>Female</option>
+                        </select>
+                    </div>
+                    <div class="label">
+                        <label for="birth" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="birth" name="birth" value="{{ staff.Birth }}">
+                    </div>
+                    <div class="label">
+                        <label for="access" class="form-label">Access</label>
+                        <input type="text" class="form-control" id="access" name="access" value="{{ staff.Access }}" required>
+                    </div>
+                    <div class="label">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ staff.Username }}" required>
+                    </div>
+                </div>
+
+                <div class="staff-schedule-container">
+                    <!-- Lịch làm việc -->
+                    <table class="staff-schedule-table-form">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th style="width: 75px;">Action</th>  <!-- Thêm cột cho nút Clear -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for day in ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] %}
+                            <tr>
+                                <td>{{ day }}</td>
+                                <td>
+                                    <input type="time" name="start_{{ day }}" value="{{ schedules[day].Start.strftime('%H:%M') if schedules.get(day) else '' }}" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="time" name="end_{{ day }}" value="{{ schedules[day].End.strftime('%H:%M') if schedules.get(day) else '' }}" class="form-control">
+                                </td>
+                                <td class="clear-box">
+                                    <button type="button" class="btn-clear" onclick="clearSchedule('{{ day }}')">Clear</button>  <!-- Nút Clear -->
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <button type="submit" class="btn-wide btn-submit">Update</button>
+        </form>
+
+        <!-- Các nút hành động -->
+        <form action="/delete-customer/{{ staff.ID }}" method="post" onsubmit="return confirmDelete();">
+            <input type="hidden" name="id" value="{{ staff.ID }}">
+            <button type="submit" class="btn-wide btn-danger">Delete Staff</button>
+        </form>
+        <button onclick="window.location.href='/'" class="btn-wide btn-alter">Back</button>
+    </div>
+</div>
+
+<!-- Flash message -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <script>
+            {% for category, message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endwith %}
+
+<script>
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this staff?");
+    }
+
+    function clearSchedule(day) {
+        document.querySelector(`input[name="start_${day}"]`).value = '';
+        document.querySelector(`input[name="end_${day}"]`).value = '';
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

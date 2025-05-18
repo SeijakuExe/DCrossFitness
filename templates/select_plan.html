@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Plan</title>
+        <script>
+        function showPopup(message, type) {
+            alert(message);
+        }
+    </script>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <div>
+            <h2><img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg" class="paypal-img">Pay via Paypal</h2>
+            <form action="/confirm-plan" method="post">
+                <div class="label">
+                    <label class="form-label" for="plan">Membership Type:</label>
+                    <select class="form-select" name="plan" id="plan">
+                        <option value="Basic">Basic</option>
+                        <option value="Premium">Premium</option>
+                    </select>
+                </div>
+
+                <div class="label">
+                    <label class="form-label" for="duration">Select Duration (months):</label>
+                    <select class="form-select" name="duration" id="duration">
+                        <option value="1">1 Month</option>
+                        <option value="3">3 Months</option>
+                        <option value="6">6 Months</option>
+                        <option value="12">12 Months</option>
+                    </select>
+                </div>
+
+                <div class="btn-container">
+                    <a href="/menu" class="btn btn-alter">Cancel </a>
+                    <button type="submit" class="btn btn-submit">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+ <script>
+        const params = new URLSearchParams(window.location.search);
+        const selectedPlan = params.get("plan");
+
+        if (selectedPlan) {
+            document.getElementById("plan").value = selectedPlan;
+        }
+    </script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

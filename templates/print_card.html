@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <style>
+        @media print {
+            body * {
+                visibility: hidden;
+                margin: 0px;
+            }
+            .membership-card, .membership-card * {
+                visibility: visible;
+            }
+            .membership-card {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body style="background: none;">
+    <div class="print-layout">
+        <div class="title">Customer: {{ account.Name }} membership card</div>
+
+        <div class="print-form">
+            <div class="membership-card">
+                <div class="card-head">
+                    <p>D-Cross Fitness: Membership Card</p>
+                </div>
+                <div class="card-body">
+                    <div class="picture-icon"><i class='bx bx-user-circle'></i></div>
+                    <div class="card-info">
+                        <p><strong>Name:</strong> {{ account.Name }}</p>
+                        <p><strong>ID:</strong> {{ account.ID }}</p>
+                        <p><strong>Birth:</strong> {{ account.Birth }}</p>
+                        <svg id="barcode"></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-layout" style="margin-bottom: 20px;">
+                <button onclick="window.print()" class="btn btn-submit">Print</button>
+                <button onclick="window.history.back()" class="btn btn-alter">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script>
+        const id = "{{ account.ID }}";
+        const phone = "{{ account.Phone }}";
+        const barcodeValue = `${id}-${phone}`;
+
+        JsBarcode("#barcode", barcodeValue, {
+            format: "CODE128",
+            width: 2,
+            height: 50,
+            displayValue: false
+        });
+    </script>
+</body>
+
+</html>
