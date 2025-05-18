@@ -83,6 +83,7 @@ DCrossFitness/
 ├── routes.py
 ├── .env
 ├── Dump20250518.sql
+├── requirements.txt
 └── README.md
 ```
 
