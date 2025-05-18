@@ -22,16 +22,17 @@
 
 ## Hướng dẫn cài đặt
 
+
 Danh sách các thư viện cần thiết:
 
-Flask
-python-dotenv
-Flask-MySQLdb
-paypalrestsdk
-requests
-pyzbar
-Pillow
-Werkzeug``
+- Flask
+- python-dotenv
+- Flask-MySQLdb
+- paypalrestsdk
+- requests
+- pyzbar
+- Pillow
+- Werkzeug``
 
 
 Cài đặt nhanh bằng pip:
