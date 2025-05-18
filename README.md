@@ -22,6 +22,10 @@
 
 ## Hướng dẫn cài đặt
 
+Clone Repo:
+```bash
+https://github.com/SeijakuExe/DCrossFitness.git
+```
 
 Danh sách các thư viện cần thiết:
 
@@ -41,7 +45,7 @@ Cài đặt nhanh bằng pip:
 pip install Flask python-dotenv Flask-MySQLdb paypalrestsdk requests pyzbar Pillow Werkzeug
 
 ```
-
+Yêu cầu thư viện đầy đủ có trong file `requirements.txt`
 ## Thiết lập file `.env`
 
 Tạo file `.env` với các biến sau (Phần trống tự thiết lập):
@@ -93,4 +97,4 @@ Sử dụng thư viện `paypalrestsdk`
 
 ## MySql Server
 
-Query tạo Schema trong file Dump20250518.sql
+Query tạo Schema trong file `Dump20250518.sql`
